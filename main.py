@@ -51,7 +51,7 @@ with open('Contacts.csv','a+') as infor1:
                     if contacts_read!=None:
                         for i in contacts_read:
                             if i[0]==name or i[1]==number:
-                                print('You are repeat one contact')
+                                print('You have this contact in PhoneBook!')
                                 break
                     while c<11:
                         if len(number)>=11:
