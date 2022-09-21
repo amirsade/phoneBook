@@ -1,6 +1,5 @@
 import os
 contacts = []
-contact1 = []
 contacts_read= []
 if os.path.isfile('Contacts.csv'):
     with open('Contacts.csv','r+') as infor1:
@@ -12,18 +11,11 @@ if os.path.isfile('Contacts.csv'):
         for i in range(len(a)):
             if b==1 or b%2==1:
                 a[i]=int(a[i])
+                contacts_read.append([a[i-1],a[i]])
             b+=1
-        print(a)
-        #for line in a:
-        #    contact = line.split('\n')
-        #    contact1.append(contact)
-        #for n in range(len(contact1)):
-        #    c+=1
-        #    if c%2==1 or c==1:
-        #        contacts_read.append(contact1[c-1]+contact1[c])
-        #print('{0:*^100}\n'.format('Your History Contacts:'),contacts_read)
-        #print('{0:^100}'.format('//  \\\ '))
-        #input('Click Enter For Operation: ')
+        print('{0:*^100}\n'.format('Your History Contacts:'),contacts_read)
+        print('{0:^100}'.format('//  \\\ '))
+        input('Click Enter For Operation: ')
 with open('Contacts.csv','a+') as infor1:
     while True:
         print('{0:*^50}'.format('Your Welcome!'))
