@@ -1,5 +1,4 @@
 import os
-from xml.etree.ElementTree import C14NWriterTarget
 contacts = []
 contact1 = []
 contacts_read= []
@@ -8,17 +7,23 @@ if os.path.isfile('Contacts.csv'):
         a = infor1.read()
         a = a[1:-1]
         a = a.split('\n')
+        b = 0
         c = 0
-        for line in a:
-            contact = line.split('\n')
-            contact1.append(contact)
-        for n in range(len(contact1)):
-            c+=1
-            if c%2==1 or c==1:
-                contacts_read.append(contact1[c-1]+contact1[c])
-        print('{0:*^100}\n'.format('Your History Contacts:'),contacts_read)
-        print('{0:^100}'.format('//  \\\ '))
-        input('Click Enter For Operation: ')
+        for i in range(len(a)):
+            if b==1 or b%2==1:
+                a[i]=int(a[i])
+            b+=1
+        print(a)
+        #for line in a:
+        #    contact = line.split('\n')
+        #    contact1.append(contact)
+        #for n in range(len(contact1)):
+        #    c+=1
+        #    if c%2==1 or c==1:
+        #        contacts_read.append(contact1[c-1]+contact1[c])
+        #print('{0:*^100}\n'.format('Your History Contacts:'),contacts_read)
+        #print('{0:^100}'.format('//  \\\ '))
+        #input('Click Enter For Operation: ')
 with open('Contacts.csv','a+') as infor1:
     while True:
         print('{0:*^50}'.format('Your Welcome!'))
@@ -51,7 +56,7 @@ with open('Contacts.csv','a+') as infor1:
                     if contacts_read!=None:
                         for i in contacts_read:
                             if i[0]==name or i[1]==number:
-                                print('You have this contact in PhoneBook!')
+                                print('You this contact and repeat again!')
                                 break
                     while c<11:
                         if len(number)>=11:
