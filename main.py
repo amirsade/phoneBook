@@ -1,3 +1,51 @@
+def add_contact(name,phone):
+    contacts.append([name,phone])
+    return contacts
+def list_all():
+  for i in contacts:
+    print(i)
+    if i==contacts[-1]:
+        print('I show\'ed you all contacts\n')
+        input('Press enter to back menu: ')
+        break
+def search_by_name(name,phone):
+    c = 0
+    for i in contacts_read:
+        if i[0] == name:
+            print(f'Your Indentifier is here , This is your contact: {contacts_read[c]}')
+            input('Click Enter to Continue')
+            print()
+            break
+        c+=1
+        if i[1]==phone:
+            if i[0]!=name:
+                print('I dont have This name but I have This number')
+                input('If you change and edit contact press enter to back menu and click number 2: ')
+                print()
+                break
+        if i == contacts_read[-1]:
+            if i!=[name,phone]:
+                print('I dont have your contact')
+                print('If you want Join my Phonebook with click number 1 from my page')
+                input('for back to menu press enter: ')
+                print()
+                break
+def save_contacts():
+    if contacts != None:
+        for i in contacts:
+            infor1.write(i[0])
+            infor1.write(',')
+            infor1.write(i[1])
+            infor1.write(',')
+    return
+def load_contacts():
+    print('{0:*^100}\n'.format('Your History Contacts:'))
+    for c in contacts_read:
+        if c[1]:
+            c[1]=int(c[1])
+            print(c)
+    print('{0:^100}'.format('//  \\\ '))
+    input('Click Enter For Operation: ')
 import os
 contacts = []
 contacts_read= []
@@ -5,17 +53,13 @@ if os.path.isfile('Contacts.csv'):
     with open('Contacts.csv','r+') as infor1:
         a = infor1.read()
         a = a[1:-1]
-        a = a.split('\n')
-        b = 0
-        c = 0
-        for i in range(len(a)):
-            if b==1 or b%2==1:
-                a[i]=int(a[i])
-                contacts_read.append([a[i-1],a[i]])
-            b+=1
-        print('{0:*^100}\n'.format('Your History Contacts:'),contacts_read)
-        print('{0:^100}'.format('//  \\\ '))
-        input('Click Enter For Operation: ')
+        a = a.split(',')
+        c=0
+        for line in a:
+            if c==1 or c%2==1:
+                contacts_read.append([a[c-1],a[c]])
+            c+=1
+        load_contacts()
 with open('Contacts.csv','a+') as infor1:
     while True:
         print('{0:*^50}'.format('Your Welcome!'))
@@ -52,8 +96,7 @@ with open('Contacts.csv','a+') as infor1:
                                 break
                     while c<11:
                         if len(number)>=11:
-                            contacts.append(name)
-                            contacts.append(number)
+                            add_contact(name,number)
                             print('Your operations are successfully Completed')
                             input('Click enter for Choose Another number:')
                             print()
@@ -64,8 +107,7 @@ with open('Contacts.csv','a+') as infor1:
                             print('You dont Write and just press enter: ')
                             break
                     else:
-                        contacts.append(name)
-                        contacts.append(number)
+                        add_contact(name,number)
                         print('Your operations are successfully Completed')
                         input('Click Enter for Choose Another number:')
                         print()
@@ -79,19 +121,19 @@ with open('Contacts.csv','a+') as infor1:
             n = 0
             p = 0
             for i in contacts:
-                n+=1
-                if i == namePast:
+                if i[0] == namePast:
                     number1 = input('Enter new phone: ')
-                    contacts[n]=number1
-                    print(f'''Your Identifer {[contacts[n-1],contacts[n]]} Change successfully! '\n' ''')
+                    contacts[n]=[namePast,number1]
+                    print(f'''Your Identifer {contacts[n]} Change successfully! '\n' ''')
                     input('Click Enter to Continue')
                     print()
                     break
+                n+=1
             for i in contacts:
-                if i == numberPast:
+                if i[1] == numberPast:
                     name1 = input('Enter new name: ')
-                    contacts[p-1]=name1
-                    print(f'''Your Identifer({[contacts[p-1],contacts[p]]}) Change successfully!'\n' ''')
+                    contacts[p]=[name1,numberPast]
+                    print(f'''Your Identifer({contacts[p]}) Change successfully!'\n' ''')
                     input('Click Enter to back Choose Number:')
                     print()
                     break
@@ -99,40 +141,15 @@ with open('Contacts.csv','a+') as infor1:
         if int(num) == 3:
             is_name = input('What is that name?: ')
             is_number = input('What is that number?: ')
-            c = 0
-            for i in contacts:
-                if i == is_name:
-                    print(f'Your Indentifier is here , This is your contact: {[contacts[c],contacts[c+1]]}')
-                    input('Click Enter to Continue')
-                    print()
-                    break
-                c+=1
-                if (i != is_name) and (i == is_number):
-                    print('I dont have This name but I have This number')
-                    input('If you change and edit contact press enter to back menu and click number 2: ')
-                    print()
-                    break
-                if i == contacts[-1]:
-                    if i!=is_name:
-                        print('I dont have your contact')
-                        print('If you want Join my Phonebook with click number 1 from my page')
-                        input('for back to menu press enter: ')
-                        print()
-                        break
+            search_by_name(is_name,is_number)
         if int(num) == 4:
-            for i in contacts:
-                print(i)
-                if i==contacts[-1]:
-                    print('I show\'ed you all contacts\n')
-                    input('Press enter to back menu: ')
-                    break
+            list_all()
         if int(num) == 6:
             is_name = input('What is that name: ')
             c = 0
-            for i in contacts:
-                if i==is_name:
-                    contacts.remove(contacts[c])
-                    contacts.remove(contacts[c])
+            for i in contacts_read:
+                if i[0]==is_name:
+                    contacts.remove(contacts_read[c])
                     print('Your contact is delete successfully')
                     input('Click enter for back to menu: ')
                     print()
@@ -140,12 +157,5 @@ with open('Contacts.csv','a+') as infor1:
                 c+=1
         if int(num)==5:
             break
-    count = 0
     if contacts != None:
-        for i in range(len(contacts)):
-            if i%2==0:
-                if i!=1:
-                    infor1.write(contacts[i])
-            if i==1 or i%2==1: 
-                infor1.write(contacts[i])
-            infor1.write('\n')         
+        save_contacts()         
